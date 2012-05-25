@@ -6,7 +6,7 @@
  * @version (a version number or a date)
  */
 public class Principal{
-  public static void main(String arg[])throws Exception{
+  public static void main(String...args)throws Exception{
     Calc cal = new Calc();
     String a="2+4-3^2";
     String b="2/4-3^2";
