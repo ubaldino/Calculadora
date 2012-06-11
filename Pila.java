@@ -1,3 +1,5 @@
+//Guarda y analiza secuencias
+// para sus operaciones
 public class Pila{
   int tope=-1;
   Object list[];

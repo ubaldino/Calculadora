@@ -8,41 +8,15 @@ public class ArbolExpresion{
     this.Raiz  = null;
     this.n     = 0;
   }
-    
-  public ArbolExpresion(LinkedList Exp){
-    Object aux =  Exp.get(0);
-    Tupla a = new Tupla();
-    a.setValor(aux.toString());
-    if(operador(aux))     
-      a.setOperador(true);
-    else
-      a.setOperador(false);
-    Nodo op,q = new Nodo(a);
-    Pila p = new Pila();
-    boolean antesOperando = false;
-    Raiz = q;
-    for(int i=1;i<Exp.size(); i++ ){
-      Object aux2 = Exp.get(i);
-      Tupla b = new Tupla(aux2.toString(),false);
-      if(operador(aux2))
-        b.setOperador(true);
-      op = new Nodo(b);
-      if(antesOperando){
-        q = (Nodo)p.pop();
-        q.setHD(op);
-      }
-      else{
-        q.setHI(op);
-        p.push(q);
-      }
-      q = op;
-      if(operador(Exp.get(i)))
-        antesOperando = false;
-      else
-        antesOperando = true;
-    }
+  
+  public Nodo getRaiz(){
+    return this.Raiz;
   }
     
+  public int getNodos(){
+    return n;
+  }
+  
   public boolean Hoja(Nodo R){
     return ((R.getAnt()==null)&&(R.getSig()==null));
   }
@@ -55,21 +29,47 @@ public class ArbolExpresion{
     else
       this.Raiz = R;
   }
-    
-  public Nodo getRaiz(){
-    return this.Raiz;
+   //*******   El objetivo del arbol   *********
+  public ArbolExpresion(LinkedList Exp){
+    String aux =  (String)Exp.get(0);
+    Tupla a = new Tupla();
+    a.setValor(aux.toString());
+    if(operador(aux))     
+      a.setOperador(true);
+    else
+      a.setOperador(false);
+    Nodo op,q = new Nodo(a);
+    Pila p = new Pila();
+    boolean antesOperando = false;
+    Raiz = q;
+    for(int i=1;i<Exp.size(); i++ ){
+      String aux2 = (String)Exp.get(i);
+      Tupla b = new Tupla(aux2.toString(),false);
+      if(operador(aux2))
+        b.setOperador(true);
+      op = new Nodo(b);
+      if(antesOperando){
+        q = (Nodo)p.pop();
+        q.setSig(op);
+      }
+      else{
+        q.setAnt(op);
+        p.push(q);
+      }
+      q = op;
+      if(operador((String)Exp.get(i)))
+        antesOperando = false;
+      else
+        antesOperando = true;
+    }
   }
     
-  public int getNodos(){
-    return n;
-  }
-    
-  public boolean operador(Object c){
-    char operadores[] = {'+','-','*','/','^'};
+  public boolean operador(String c){
+    String operadores[] = {"+","-","*","/","^"};
     boolean existe = false;
-    char aux =   c.toString().charAt(0);
+    String aux = c.toString();
     for(int i=0; ((i<5) && (!existe)); i++)
-      if(aux == operadores[i])
+      if(operadores[i].equals(aux))
         existe = true;
     return existe;
   }
@@ -89,13 +89,13 @@ public class ArbolExpresion{
       else{
         double vizq = evaluar(R.getAnt());
         double vder = evaluar(R.getSig());
-        Character op = R.getDato().getValor().charAt(0);
+        String op = R.getDato().getValor();
         switch(op){
-          case '+' : res = vizq + vder;break;
-          case '-' : res = vizq - vder;break;
-          case '*' : res = vizq * vder;break;
-          case '/' : res = vizq / vder;break;
-          case '^' : res = Math.pow(vizq,vder);break;
+          case "+" : res = vizq + vder;break;
+          case "-" : res = vizq - vder;break;
+          case "*" : res = vizq * vder;break;
+          case "/" : res = vizq / vder;break;
+          case "^" : res = Math.pow(vizq,vder);break;
           default:; break;
         }
       }  

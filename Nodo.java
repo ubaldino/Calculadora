@@ -24,16 +24,16 @@ public class Nodo{
     this.sig = sig;
   }
     
-  public void setData(Tupla dat){
+  public void setDato(Tupla dat){
     this.dato.setValor(dat.getValor());
     this.dato.setOperador(dat.getOperator());
   }
     
-  public void setHI(Nodo ant){
+  public void setAnt(Nodo ant){
     this.ant= ant;
   }
     
-  public void setHD(Nodo sig){
+  public void setSig(Nodo sig){
     this.sig = sig;
   }
     

@@ -1,30 +1,60 @@
 import java.util.LinkedList;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Scanner;
 public class Calc{
   public Calc(){
   }
     
-  public double calcular(String expre) throws Exception{
-    double resultado=0;
-    String aux = expre;
-    Comprobador scanner = new Comprobador();
-    aux = scanner.scan(aux);
-    if(aux.equals("P")||aux.equals("O")){     
-      if(aux.equals("P"))
-        throw new Exception("Verifique los parentesis.");
-      else
-        throw new Exception("El numero de operadores no es correcto.");
-    }
-    else{
-      Expresion e = new Expresion(aux);
-      LinkedList exp = e.CompletoPrefija();
-      if((exp.size()!=0)&&(exp.size()!=2)){
-        ArbolExpresion ar = new ArbolExpresion(exp);
-        resultado = ar.evaluar(); 
+  public String calBasica(String expre,int dec){
+    String resultado="";
+    Expresion exp = new Expresion();
+    Sintaxis syn=new Sintaxis();
+    
+    if(syn.check(expre)){
+      exp.separar(expre);
+      LinkedList expr = exp.preFija();
+      if((expr.size()!=0)&&(expr.size()!=2)){
+        ArbolExpresion ar = new ArbolExpresion(expr);
+        resultado = ""+ar.evaluar(); 
       }
-      else
-        throw new Exception("Verifique la expresion.");
     }
-    return resultado;   
+    else
+      System.out.println("La expresion no es valida");
+    if(dec>0){
+      BigDecimal redondear = new BigDecimal(resultado);  
+      resultado = ""+redondear.setScale(dec,RoundingMode.CEILING);//UNNECESSARY || CEILING
+    }
+    return resultado;
+  }
+  // Realiza operaciones fimancieras
+  public String calFinaciera(String expre){
+    /**
+     * Interes simple
+     * interes compuesto
+     * rentas constantes *
+     * 
+     * 
+     * 
+       */
+    String resultado="";
+    return resultado;
+  }
+  // Realiza operaciones de sistemas de numeracion
+  public String calEnBase(){
+    Bases base=new Bases();
+    Scanner scan=new Scanner(System.in);
+    String resultado="";
+    System.out.println("** Ingrese una opcion **");
+    String caso=scan.nextLine();
+    switch(caso){
+      case "1":base.DecBinario(scan.nextLine());break;
+      case "2":base.BinDecimal(scan.nextLine());break;
+      case "3":base.DecOctal(scan.nextLine());break;
+      case "4":base.OctalDecimal(scan.nextLine());break;
+      case "5":base.DecHexadecimal(scan.nextLine());break;
+      case "6":base.HexDecimal(scan.nextLine());break;
+    }
+    return resultado;
   }
 }
